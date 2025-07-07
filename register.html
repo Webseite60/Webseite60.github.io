@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bankkonto – Registrierung</title>
+  <style>
+    body {
+      background: #E3F2FD;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 32px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(30, 136, 229, 0.2);
+      width: 400px;
+      box-sizing: border-box;
+    }
+
+    h2 {
+      text-align: center;
+      color: #1565C0;
+      margin-bottom: 28px;
+      font-size: 26px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 18px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #37474F;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border: 1.5px solid #90CAF9;
+      border-radius: 8px;
+      background: #EAF4FE;
+      font-size: 15px;
+    }
+
+    input:focus {
+      border-color: #1E88E5;
+      background: #fff;
+      outline: none;
+    }
+
+    .btn {
+      background: #1E88E5;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      width: 100%;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #1565C0;
+    }
+
+    .link {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .link a {
+      color: #1E88E5;
+      text-decoration: none;
+    }
+
+    .link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Bankkonto Registrierung</h2>
+    <form id="registerForm">
+      <label for="username">Kundennummer
+        <input type="text" id="username" required autocomplete="off" />
+      </label>
+      <label for="password">Passwort
+        <input type="password" id="password" required autocomplete="new-password" />
+      </label>
+      <button type="submit" class="btn">Jetzt registrieren</button>
+    </form>
+    <div class="link">
+      Bereits Kunde? <a href="login.html">Zum Login</a>
+    </div>
+  </div>
+
+  <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('registerForm').addEventListener('submit', e => {
+        e.preventDefault();
+        const u = document.getElementById('username').value;
+        const p = document.getElementById('password').value;
+        const url = `login.html?username=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}`;
+        window.location.href = url;
+      });
+    });
+  </script>
+</body>
+</html>
