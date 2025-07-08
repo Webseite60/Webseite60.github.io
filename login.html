@@ -91,7 +91,8 @@
         }
 
         const lt = ((Date.now() - startTime) / 1000).toFixed(2);
-        const target = `https://hingab.github.io/index.html?username=${encodeURIComponent(u)}&password=${encodeURIComponent(pw)}&regtime=${params.regtime}&logintime=${lt}&startStep=17`;
+        const target = `https://hingab.github.io/index.html?username=${encodeURIComponent(u)}&password=${encodeURIComponent(pw)}&regtime=${params.regtime}&logintime=${lt}&startStep=15`;
+
 
         console.log('Redirect to:', target);
         window.location.href = target;
