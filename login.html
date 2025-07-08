@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Bank - Login</title>
+  <style>
+    body {
+      background: #e9ecef;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: #fff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      width: 360px;
+    }
+    h1 {
+      color: #004481;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #004481;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Deine Bank – Login</h1>
+    <form id="loginForm">
+      <label>Nutzername
+        <input type="text" id="username" required>
+      </label>
+      <label>Passwort
+        <input type="password" id="password" required>
+      </label>
+      <button type="submit">Anmelden</button>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const startTime = Date.now();
+      const params = Object.fromEntries(new URLSearchParams(window.location.search).entries());
+      
+      // Autofill des Benutzernamens
+      document.getElementById('username').value = params.username || '';
+
+      document.getElementById('loginForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const enteredUsername = document.getElementById('username').value;
+        const enteredPassword = document.getElementById('password').value;
+
+        if (enteredPassword !== params.password) {
+          alert("Passwort stimmt nicht.");
+          return;
+        }
+
+        const loginTime = ((Date.now() - startTime) / 1000).toFixed(2);
+        
+        const redirectUrl = `https://hingab.github.io/index.html?username=${encodeURIComponent(enteredUsername)}&password=${encodeURIComponent(enteredPassword)}&regtime=${params.regtime}&logintime=${loginTime}&startStep=17`;
+
+        console.log("Weiterleitung zu:", redirectUrl);
+        window.location.href = redirectUrl;
+      });
+    });
+  </script>
+</body>
+</html>
