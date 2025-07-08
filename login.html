@@ -2,63 +2,47 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Bank - Login</title>
+  <title>Login</title>
   <style>
     body {
-      background: #e9ecef;
       font-family: Arial, sans-serif;
+      background: #eef2f3;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      margin: 0;
     }
     .card {
       background: #fff;
-      padding: 40px;
+      padding: 30px;
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       width: 360px;
     }
     h1 {
-      color: #004481;
       text-align: center;
-      margin-bottom: 20px;
+      color: #004481;
     }
-    label {
-      display: block;
-      margin-bottom: 10px;
-    }
-    input {
+    input, button {
       width: 100%;
-      padding: 10px;
-      margin-top: 4px;
-      border: 1px solid #ccc;
+      padding: 12px;
+      margin-top: 10px;
       border-radius: 4px;
     }
     button {
-      width: 100%;
-      padding: 12px;
       background: #004481;
-      color: #fff;
+      color: white;
       border: none;
-      border-radius: 4px;
-      font-size: 16px;
-      margin-top: 20px;
       cursor: pointer;
     }
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>Deine Bank – Login</h1>
+    <h1>Login</h1>
     <form id="loginForm">
-      <label>Nutzername
-        <input type="text" id="username" required>
-      </label>
-      <label>Passwort
-        <input type="password" id="password" required>
-      </label>
+      <input type="text" id="username" placeholder="Nutzername" required>
+      <input type="password" id="password" placeholder="Passwort" required>
       <button type="submit">Anmelden</button>
     </form>
   </div>
@@ -66,26 +50,29 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const startTime = Date.now();
-      const params = Object.fromEntries(new URLSearchParams(window.location.search).entries());
-      
-      // Autofill des Benutzernamens
-      document.getElementById('username').value = params.username || '';
+      const params = new URLSearchParams(window.location.search);
+
+      // Username vorausfüllen
+      const usernameInput = document.getElementById('username');
+      usernameInput.value = params.get('username') || '';
 
       document.getElementById('loginForm').addEventListener('submit', (e) => {
         e.preventDefault();
-        const enteredUsername = document.getElementById('username').value;
-        const enteredPassword = document.getElementById('password').value;
 
-        if (enteredPassword !== params.password) {
+        const username = usernameInput.value;
+        const password = document.getElementById('password').value;
+        const regtime = params.get('regtime') || '0';
+        const logintime = ((Date.now() - startTime) / 1000).toFixed(2);
+
+        if (password !== params.get('password')) {
           alert("Passwort stimmt nicht.");
           return;
         }
 
-        const loginTime = ((Date.now() - startTime) / 1000).toFixed(2);
-        
-        const redirectURL = `success.html?username=${encodeURIComponent(enteredUsername)}&password=${encodeURIComponent(enteredPassword)}&regtime=${params.regtime}&logintime=${loginTime}&startStep=17`;
-        console.log("Weiterleitung zu:", redirectURL);
-        window.location.href = redirectURL;
+        // ➤ Weiterleitung zu Schritt 17 auf der Steuerseite
+        const redirectUrl = `https://hinmaab.github.io/index.html?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&regtime=${regtime}&logintime=${logintime}&startStep=17`;
+
+        window.location.href = redirectUrl;
       });
     });
   </script>
