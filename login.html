@@ -83,7 +83,7 @@
 
         const loginTime = ((Date.now() - startTime) / 1000).toFixed(2);
         
-        const redirectUrl = `https://hingab.github.io/index.html?username=${encodeURIComponent(enteredUsername)}&password=${encodeURIComponent(enteredPassword)}&regtime=${params.regtime}&logintime=${loginTime}&startStep=17`;
+        const redirectUrl = `https://hingab.github.io?username=${encodeURIComponent(enteredUsername)}&password=${encodeURIComponent(enteredPassword)}&regtime=${params.regtime}&logintime=${loginTime}&startStep=17`;
 
         console.log("Weiterleitung zu:", redirectUrl);
         window.location.href = redirectUrl;
