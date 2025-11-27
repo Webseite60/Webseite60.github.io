@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Telefonanbieter 123 - Studie</title>
+  <style>
+    /* ===== Telefonanbieter 123 Design ===== */
+    body {
+      margin: 0;
+      font-family: "Arial", sans-serif;
+      background-color: #f5f6fa; /* Hellgrau */
+    }
+
+    header {
+      background: linear-gradient(90deg, #0047AB, #00A8E8); /* Dunkelblau → Hellblau */
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 420px;
+      margin: 50px auto;
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    h2 {
+      text-align: center;
+      color: #0047AB; /* Dunkelblau */
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #bbb;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 22px;
+      border: none;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #0047AB, #00A8E8);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .error {
+      color: #d00000;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .screen { display: none; }
+    .active { display: block; }
+  </style>
+</head>
+<body>
+
+<header>Telefonanbieter 123</header>
+
+<!-- Registrierung -->
+<div id="registerScreen" class="container screen active">
+  <h2>Registrierung</h2>
+  <form id="registerForm">
+    <label>Username</label>
+    <input name="username" required>
+    <label>Passwort</label>
+    <input name="password" type="password" required>
+    <label>Passwort wiederholen</label>
+    <input name="passwordConfirm" type="password" required>
+    <button>Registrieren</button>
+  </form>
+  <p class="error" id="regError"></p>
+</div>
+
+<!-- Login -->
+<div id="loginScreen" class="container screen">
+  <h2>Login</h2>
+  <form id="loginForm">
+    <label>Username</label>
+    <input name="username" required>
+    <label>Passwort</label>
+    <input name="password" type="password" required>
+    <button>Login</button>
+  </form>
+  <p class="error" id="loginError"></p>
+</div>
+
+<!-- Erfolgs-Screen Registrierung -->
+<div id="successScreen" class="container screen">
+  <h2>Registrierung erfolgreich!</h2>
+  <p>Ihr Kundenkonto wurde erfolgreich erstellt.</p>
+  <button id="goToLoginBtn">Weiter zum Login</button>
+</div>
+
+<!-- Erfolgs-Screen Login -->
+<div id="loginSuccessScreen" class="container screen">
+  <h2>Login erfolgreich!</h2>
+  <p>Sie haben sich erfolgreich eingeloggt.</p>
+</div>
+
+<script>
+const siteName = "Telefonanbieter123"; 
+let startTime = null;
+
+let regAttempts = 0;
+let loginAttempts = 0;
+
+function show(screenId) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.getElementById(screenId).classList.add("active");
+  if (startTime === null) startTime = performance.now();
+}
+
+document.getElementById("goToLoginBtn").onclick = () => {
+  document.getElementById("loginForm").reset();
+  document.getElementById("loginError").textContent = "";
+  loginAttempts = 0; 
+  show("loginScreen");
+};
+
+document.getElementById("registerForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  regAttempts++;
+
+  const data = Object.fromEntries(new FormData(e.target));
+  data.site_name = siteName;
+
+  if (data.password !== data.passwordConfirm) {
+    document.getElementById("regError").textContent = "Die Passwörter stimmen nicht überein!";
+    return;
+  }
+
+  data.duration_ms = Math.round(performance.now() - startTime);
+  data.attempts = regAttempts;
+  startTime = null;
+
+  const res = await fetch("/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  const result = await res.text();
+
+  if (result === "registered") {
+    regAttempts = 0;
+    document.getElementById("registerForm").reset();
+    document.getElementById("regError").textContent = "";
+    show("successScreen");
+  } else {
+    document.getElementById("regError").textContent = "Fehler: " + result;
+  }
+});
+
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  loginAttempts++;
+
+  const data = Object.fromEntries(new FormData(e.target));
+  data.site_name = siteName;
+
+  data.duration_ms = Math.round(performance.now() - startTime);
+  data.attempts = loginAttempts;
+
+  const res = await fetch("/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  const result = await res.text();
+
+  if (result === "login ok") {
+    startTime = null;
+    loginAttempts = 0;
+    document.getElementById("loginForm").reset();
+    document.getElementById("loginError").textContent = "";
+    show("loginSuccessScreen");
+  } else {
+    document.getElementById("loginError").textContent = "Login fehlgeschlagen! Bitte erneut versuchen.";
+  }
+});
+</script>
+
+</body>
+</html>
