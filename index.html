@@ -81,19 +81,35 @@
 <header>Telefonanbieter 123</header>
 
 <!-- Registrierung -->
-<div id="registerScreen" class="container screen active">
-  <h2>Registrierung</h2>
-  <form id="registerForm">
-    <label>Username</label>
-    <input name="username" required>
-    <label>Passwort</label>
-    <input name="password" type="password" required>
-    <label>Passwort wiederholen</label>
-    <input name="passwordConfirm" type="password" required>
-    <button>Registrieren</button>
-  </form>
-  <p class="error" id="regError"></p>
+
+<div id="registerScreen" class="screen active">
+  <div class="main-container">
+
+    <!-- Originaler Registrierungs-Container -->
+    <div class="container">
+      <h2>Registrierung</h2>
+      <form id="registerForm">
+        <label>Username</label>
+        <input name="username" required>
+        <label>Passwort</label>
+        <input name="password" type="password" required>
+        <label>Passwort wiederholen</label>
+        <input name="passwordConfirm" type="password" required>
+        <button>Registrieren</button>
+      </form>
+      <p class="error" id="regError"></p>
+    </div>
+
+    <!-- 🟣 INFO-BOX (NEU) -->
+    <div class="info-box">
+      <h3>Hinweis</h3>
+      <p>Bitte beachten Sie: Diese Registrierung dient ausschließlich Studienzwecken.</p>
+      <p>Ihre eingegebenen Daten werden nur zur Auswertung der Untersuchung verwendet.</p>
+    </div>
+
+  </div>
 </div>
+
 
 <!-- Login -->
 <div id="loginScreen" class="container screen">
