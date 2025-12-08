@@ -74,6 +74,33 @@
 
     .screen { display: none; }
     .active { display: block; }
+    /* ===== Flex Container für Form + Info Box ===== */
+    .main-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 30px;
+      max-width: 900px;
+      margin: 50px auto;
+    }
+
+    /* ===== Info Box rechts ===== */
+    .info-box {
+      width: 300px;
+      background-color: #fff4ff;
+      border: 1px solid #d49bf7;
+      border-radius: 10px;
+      padding: 20px;
+      color: #4b0082;
+      font-size: 14px;
+      line-height: 1.5;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 800px) {
+      .main-container { flex-direction: column; align-items: center; }
+      .info-box { width: 90%; margin-top: 20px; }
+    }
   </style>
 </head>
 <body>
@@ -81,11 +108,11 @@
 <header>Telefonanbieter 123</header>
 
 <!-- Registrierung -->
-
+<!-- Registrierung + Info Box -->
 <div id="registerScreen" class="screen active">
   <div class="main-container">
 
-    <!-- Originaler Registrierungs-Container -->
+    <!-- Registrierung Formular -->
     <div class="container">
       <h2>Registrierung</h2>
       <form id="registerForm">
@@ -100,11 +127,15 @@
       <p class="error" id="regError"></p>
     </div>
 
-    <!-- 🟣 INFO-BOX (NEU) -->
+    <!-- Info Box rechts -->
     <div class="info-box">
-      <h3>Hinweis</h3>
-      <p>Bitte beachten Sie: Diese Registrierung dient ausschließlich Studienzwecken.</p>
-      <p>Ihre eingegebenen Daten werden nur zur Auswertung der Untersuchung verwendet.</p>
+      <strong>Benutzername soll Ihr Muttercode sein:</strong>
+      <ul>
+        <li>Die ersten beiden Buchstaben des Vornamens der Mutter</li>
+        <li>Die letzten beiden Buchstaben des eigenen Geburtsorts</li>
+        <li>Der Geburtsmonat des Vaters als Zahl (z. B. Januar = 01)</li>
+        <li>Der letzte Buchstabe des eigenen Vornamens</li>
+      </ul>
     </div>
 
   </div>
