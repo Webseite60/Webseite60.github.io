@@ -165,12 +165,19 @@
 <!-- Erfolgs-Screen Login -->
 <div id="loginSuccessScreen" class="container screen">
   <h2>Login erfolgreich!</h2>
-  <p>Sie haben sich erfolgreich eingeloggt.</p>
+    <p>Sie haben sich erfolgreich eingeloggt.</p>
+    <p>Bitte folgen Sie den Anweisungen in der E-Mail.</p>
 </div>
 
 <script>
 const siteName = "Telefonanbieter123"; 
 let startTime = null;
+
+// Direkt zum Login wechseln, wenn ?mode=login gesetzt ist
+const params = new URLSearchParams(window.location.search);
+if (params.get("mode") === "login") {
+  show("loginScreen");
+}  
 
 let regAttempts = 0;
 let loginAttempts = 0;
